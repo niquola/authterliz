@@ -7,7 +7,11 @@
 (def config
   {:base-url "https://localhost:5555"
    :redirect-uri-regex #"^http(s)?://localhost:5555/.*"
-   :validate-client? (fn [cid] (contains? #{"myclient"} cid))})
+   :validate-client?  (fn [cid] (contains? #{"myclient"} cid))
+   :pages {:authenticate (fn [req])
+           :error (fn [req errors])
+           :switch-account (fn [req errors])}
+   })
 
 
 

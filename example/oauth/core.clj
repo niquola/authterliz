@@ -10,13 +10,16 @@
 
 (def oauth-config
   {:base-url "http://localhost:5555"
-   :redirect-uri-regex #"^localhost:5555/.*"
+   :redirect-uri-regex #"^http(s)?://localhost.*"
+   :check-cridentials (fn [cfg params]
+                        )
+
    })
 
 (def app
-  (ring/wrap-defaults 
-   (oauth/oauth-server-middleware handler oauth-config)
-   ring/site-defaults))
+  (-> handler
+      (oauth/oauth-server-middleware  oauth-config)
+      (ring/wrap-defaults ring/site-defaults)))
 
 (defonce server (atom nil))
 

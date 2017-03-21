@@ -1,4 +1,4 @@
-# authterliz
+# Authterliz
 
 A Clojure library (with some inversion of control :() to implement 
 OAuth 2.0 & OpenId connect server/clients.
@@ -12,7 +12,12 @@ OAuth 2.0 & OpenId connect server/clients.
    :valid-client? validate-client-fn
    :redirect-uri-regex #"^localhost:5555/.*" })
 
-(oauth/oauth-server-middleware handler oauth-config)
+(-> handler
+  ...
+  (oauth/oauth-server-middleware oauth-config)
+  ...
+  )
+
 ```
 
 ## License
