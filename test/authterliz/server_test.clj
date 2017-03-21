@@ -8,10 +8,10 @@
   {:base-url "https://localhost:5555"
    :redirect-uri-regex #"^http(s)?://localhost:5555/.*"
    :validate-client?  (fn [cid] (contains? #{"myclient"} cid))
+   :authenticate (fn [req])
    :pages {:authenticate (fn [req])
            :error (fn [req errors])
-           :switch-account (fn [req errors])}
-   })
+           :switch-account (fn [req errors])}})
 
 
 
@@ -45,7 +45,7 @@
    (request :get "/oauth2/authorize" valid-impl-auth-request)
    {:status 200
     :body {:error nil?
-           :errors empty?}})
+           :errors #(or (nil? %) (empty? %))}})
 
   (matcho/match
    (request :get "/oauth2/authorize" (assoc valid-impl-auth-request :redirect_uri "wrong"))

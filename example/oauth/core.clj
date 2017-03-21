@@ -12,9 +12,7 @@
   {:base-url "http://localhost:5555"
    :redirect-uri-regex #"^http(s)?://localhost.*"
    :check-cridentials (fn [cfg params]
-                        )
-
-   })
+                        {:password "Invalid password"})})
 
 (def app
   (-> handler
