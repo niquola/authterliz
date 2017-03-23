@@ -8,11 +8,15 @@
 (defn handler [req]
   {:body "Hello"})
 
+(defn check-credentials [cfg params]
+  (cond-> {}
+    (not (= "pass" (:password params))) (conj :password "Invalid")
+    (not (= "niquola@gmail.com" (:email params))) (conj :email "Invalid")))
+
 (def oauth-config
   {:base-url "http://localhost:5555"
    :redirect-uri-regex #"^http(s)?://localhost.*"
-   :check-cridentials (fn [cfg params]
-                        {:password "Invalid password"})})
+   :check-cridentials check-credentials})
 
 (def app
   (-> handler
